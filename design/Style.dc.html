@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Daybook palette and type</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&amp;display=swap">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div style="width: 1280px; height: 1640px; box-sizing: border-box; padding: 64px; background: #F6F4F0; color: #211F1C; font-family: 'Figtree', ui-sans-serif, system-ui, sans-serif; display: flex; flex-direction: column; gap: 40px">
+
+<div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 24px">
+<div style="display: flex; flex-direction: column; gap: 8px">
+<span style="font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #5F5A53">Build spec</span>
+<h1 style="margin: 0; font-family: 'Newsreader', Georgia, serif; font-size: 56px; font-weight: 400; letter-spacing: -0.015em; line-height: 1">Daybook — palette &amp; type</h1>
+</div>
+<p style="margin: 0; max-width: 420px; font-size: 15px; line-height: 1.5; color: #5F5A53">The interface stays quiet and warm-neutral so the generated art carries all the color. One accent, used only for the streak.</p>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px">
+<section style="background: #F6F4F0; border: 1px solid #E2DDD5; border-radius: 24px; padding: 24px; display: flex; flex-direction: column; gap: 16px">
+<span style="font-size: 15px; font-weight: 700">Interface · Light</span>
+<div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px">
+<sc-for list="{{tokens}}" as="t" hint-placeholder-count="12">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<div style="height: 52px; border-radius: 12px; background: {{t.light}}; box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.08)"></div>
+<span style="font-size: 13px; font-weight: 600">{{t.name}}</span>
+<span style="font-size: 12px; color: #5F5A53; font-family: ui-monospace, Menlo, monospace">{{t.light}}</span>
+</div>
+</sc-for>
+</div>
+</section>
+<section style="background: #121214; color: #EEEAE4; border-radius: 24px; padding: 24px; display: flex; flex-direction: column; gap: 16px">
+<span style="font-size: 15px; font-weight: 700">Interface · Dark</span>
+<div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px">
+<sc-for list="{{tokens}}" as="t" hint-placeholder-count="12">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<div style="height: 52px; border-radius: 12px; background: {{t.dark}}; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1)"></div>
+<span style="font-size: 13px; font-weight: 600">{{t.name}}</span>
+<span style="font-size: 12px; color: #A9A49C; font-family: ui-monospace, Menlo, monospace">{{t.dark}}</span>
+</div>
+</sc-for>
+</div>
+</section>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 24px">
+<section style="grid-column: span 7; background: #FFFFFF; border: 1px solid #E2DDD5; border-radius: 24px; padding: 24px; display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex; justify-content: space-between; align-items: baseline">
+<span style="font-size: 15px; font-weight: 700">Art moods</span>
+<span style="font-size: 12px; color: #5F5A53">Keyword match picks a palette; same in both themes</span>
+</div>
+<sc-for list="{{moods}}" as="m" hint-placeholder-count="6">
+<div style="display: flex; align-items: center; gap: 14px">
+<div style="width: 56px; height: 56px; flex: none; border-radius: 14px; background: {{m.grad}}"></div>
+<div style="display: flex; flex-direction: column; gap: 2px; width: 150px; flex: none">
+<span style="font-size: 14px; font-weight: 600">{{m.label}}</span>
+<span style="font-size: 12px; color: #5F5A53">{{m.words}}</span>
+</div>
+<div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; flex: 1">
+<sc-for list="{{m.sw}}" as="s" hint-placeholder-count="4">
+<div style="display: flex; align-items: center; gap: 6px">
+<span style="width: 22px; height: 22px; flex: none; border-radius: 999px; background: {{s.c}}; box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.08)"></span>
+<span style="font-size: 12px; font-family: ui-monospace, Menlo, monospace; color: #5F5A53">{{s.c}}</span>
+</div>
+</sc-for>
+</div>
+</div>
+</sc-for>
+</section>
+<section style="grid-column: span 5; background: #FFFFFF; border: 1px solid #E2DDD5; border-radius: 24px; padding: 24px; display: flex; flex-direction: column; gap: 12px">
+<span style="font-size: 15px; font-weight: 700">How the art is made</span>
+<ol style="margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 10px; font-size: 14px; line-height: 1.5; color: #3A3632">
+<li>Seed = FNV-1a hash of date + entry text, fed to mulberry32. Same entry, same art, every time.</li>
+<li>Mood = best keyword-prefix match over the six lists (no match: picked by seed from the five lighter moods).</li>
+<li>Background: two soft radial glows (palette 1 and 2) over a linear base from palette 4 to 3, random angle.</li>
+<li>Shapes: 7 on the full card, 3 on thumbnails, none on mini mosaics. Circle, ring, half-disc, pill, blurred blob; 35% use multiply blend.</li>
+<li>Shapes are % positioned in a square, so one recipe renders at 36 px or 1080 px. Export the card with canvas or html-to-image.</li>
+</ol>
+</section>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 24px">
+<section style="grid-column: span 7; background: #FFFFFF; border: 1px solid #E2DDD5; border-radius: 24px; padding: 24px; display: flex; flex-direction: column; gap: 18px">
+<div style="display: flex; justify-content: space-between; align-items: baseline">
+<span style="font-size: 15px; font-weight: 700">Type</span>
+<span style="font-size: 12px; color: #5F5A53">Google Fonts: Newsreader (opsz 6–72) + Figtree</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 4px; padding-bottom: 14px; border-bottom: 1px solid #E2DDD5">
+<span style="font-family: 'Newsreader', Georgia, serif; font-size: 44px; line-height: 1.15; letter-spacing: -0.01em">What made you smile today?</span>
+<span style="font-size: 12px; color: #5F5A53">Prompt / headings · Newsreader 400 · 30 px mobile, 46 px desktop · lh 1.15 · −0.01em</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 4px; padding-bottom: 14px; border-bottom: 1px solid #E2DDD5">
+<span style="font-family: 'Newsreader', Georgia, serif; font-size: 19px; line-height: 1.55">Rain all afternoon. Made tea and watched it from the window.</span>
+<span style="font-size: 12px; color: #5F5A53">Entry text · Newsreader 400 · 18 px mobile, 21 px desktop · lh 1.55</span>
+</div>
+<div style="display: flex; align-items: flex-end; gap: 28px; padding-bottom: 14px; border-bottom: 1px solid #E2DDD5">
+<div style="display: flex; flex-direction: column; gap: 4px">
+<span style="font-family: 'Newsreader', Georgia, serif; font-size: 64px; line-height: 1; font-weight: 500">7</span>
+<span style="font-size: 12px; color: #5F5A53">Numerals · Newsreader 500 · 42–114 px</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 4px">
+<span style="font-family: 'Newsreader', Georgia, serif; font-style: italic; font-size: 40px; line-height: 1">September</span>
+<span style="font-size: 12px; color: #5F5A53">Poster title · Newsreader italic 400 · 34 / 52 px</span>
+</div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px">
+<div style="display: flex; flex-direction: column; gap: 4px"><span style="font-size: 16px; font-weight: 600">Save &amp; reveal today’s art</span><span style="font-size: 12px; color: #5F5A53">Buttons · Figtree 600 · 15–16 px</span></div>
+<div style="display: flex; flex-direction: column; gap: 4px"><span style="font-size: 15px; font-weight: 500">Longest 12 days</span><span style="font-size: 12px; color: #5F5A53">UI body · Figtree 500 · 15 px</span></div>
+<div style="display: flex; flex-direction: column; gap: 4px"><span style="font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase">Today’s prompt</span><span style="font-size: 12px; color: #5F5A53">Eyebrow · Figtree 600 · 12 px · caps · 0.08em</span></div>
+<div style="display: flex; flex-direction: column; gap: 4px"><span style="font-size: 13px">Saved only in this browser.</span><span style="font-size: 12px; color: #5F5A53">Caption · Figtree 400 · 13 px</span></div>
+</div>
+</section>
+<section style="grid-column: span 5; background: #FFFFFF; border: 1px solid #E2DDD5; border-radius: 24px; padding: 24px; display: flex; flex-direction: column; gap: 16px">
+<span style="font-size: 15px; font-weight: 700">Shape, space &amp; motion</span>
+<div style="display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px">
+<sc-for list="{{radii}}" as="r" hint-placeholder-count="5">
+<div style="display: flex; flex-direction: column; gap: 6px; align-items: flex-start">
+<div style="width: 52px; height: 52px; background: #EEEAE3; border-radius: {{r.v}}"></div>
+<span style="font-size: 12px; font-weight: 600">{{r.v}}</span>
+<span style="font-size: 11px; color: #5F5A53">{{r.use}}</span>
+</div>
+</sc-for>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; line-height: 1.5; color: #3A3632">
+<span><strong>Spacing:</strong> 4 · 6 · 8 · 12 · 16 · 18 · 24 · 32 · 48 px. Mobile gutter 20 px; desktop 48 px, content max 1160 px.</span>
+<span><strong>Touch:</strong> every control ≥ 44 px; primary buttons 52–56 px, fully rounded.</span>
+<span><strong>Reveal:</strong> opacity 0→1 900 ms ease; scale 0.94→1 1100 ms cubic-bezier(0.2, 0.8, 0.2, 1); blur 14→0 px 900 ms. Reduced motion: fade only.</span>
+<span><strong>Elevation:</strong> cards 1 px border + 0 1 2 shadow; art 0 30 60 −28 shadow.</span>
+<span><strong>Storage:</strong> entries in localStorage keyed YYYY-MM-DD; art is recomputed, never stored.</span>
+</div>
+</section>
+</div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1640}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const tokens = [
+      ['bg', '#F6F4F0', '#121214'], ['surface', '#FFFFFF', '#1B1B1F'], ['surface-2', '#EEEAE3', '#26262C'], ['ink', '#211F1C', '#EEEAE4'],
+      ['muted', '#5F5A53', '#A9A49C'], ['faint', '#8C867D', '#77726B'], ['line', '#E2DDD5', '#2F2F36'], ['line-2', '#C9C2B7', '#4A4A53'],
+      ['accent', '#B5531B', '#F2A36B'], ['accent-ink', '#8F3F10', '#F7BE93'], ['accent-soft', '#FBE5D2', '#3B2719'], ['on-ink', '#FAF8F5', '#141416']
+    ].map((t) => ({ name: t[0], light: t[1], dark: t[2] }));
+    const M = [
+      ['Bright & warm', ['#FF8A5B', '#FFC857', '#FF5E78', '#FFF1DC'], 'smile, laugh, sun, love'],
+      ['Calm & clear', ['#2EC4B6', '#3A86FF', '#9FE3DC', '#E6F6F4'], 'quiet, walk, rain, tea'],
+      ['Thoughtful', ['#6C63FF', '#B497F5', '#2E2A72', '#ECE8FF'], 'think, book, wonder'],
+      ['Soft & tender', ['#F497B6', '#FFB4A2', '#D9667E', '#FFEDEF'], 'mom, hug, home, friend'],
+      ['Lively', ['#FF4D6D', '#FF9F1C', '#7B2CBF', '#FFE8D6'], 'run, dance, music, trip'],
+      ['Heavy, and okay', ['#5C6B8A', '#9DB0D3', '#2F3A55', '#E6EBF3'], 'tired, hard, lonely']
+    ];
+    const moods = M.map((m) => {
+      const P = m[1];
+      return { label: m[0], words: m[2], sw: P.map((c) => ({ c: c })),
+        grad: 'radial-gradient(circle at 30% 28%, ' + P[0] + 'd9 0%, ' + P[0] + '00 58%), radial-gradient(circle at 72% 70%, ' + P[1] + 'cc 0%, ' + P[1] + '00 62%), linear-gradient(135deg, ' + P[3] + ' 0%, ' + P[2] + '66 100%)' };
+    });
+    const radii = [
+      { v: '7px', use: 'Poster tiles' }, { v: '12px', use: 'Calendar (mobile)' }, { v: '24px', use: 'Cards' }, { v: '28px', use: 'Art, poster' }, { v: '999px', use: 'Buttons, chips' }
+    ];
+    return { tokens: tokens, moods: moods, radii: radii };
+  }
+}
+</script>
+</body>
+</html>
